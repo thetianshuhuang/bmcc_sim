@@ -2,3 +2,6 @@ plots*
 results*
 data*
 *.pyc
+aggregate/*
+__pycache__/
+*.png

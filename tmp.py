@@ -1,17 +1,18 @@
 import numpy as np
-import bmcc
 import json
+
+import bmcc
 
 import os
 from tqdm import tqdm
 from multiprocessing import Pool
 
-from util import get_files_recursive, save_fig
+from util import get_files_recursive
 
 
 BASE_DIR = './data/r=0.7,sym=False'
-RESULT_DIR = './results_dpm_no_eb/r=0.7,sym=False'
-PLOT_DIR = './plots_dpm_no_eb/r=0.7,sym=False'
+RESULT_DIR = './results_mfm/r=0.7,sym=False'
+PLOT_DIR = './plots_mfm/r=0.7,sym=False'
 MIXTURE_MODEL = 'MFM'
 
 
@@ -26,38 +27,18 @@ def run(path):
 
     # Check for cut off
     if(hist.shape[0] < 500):
-        with open(path_plot + '_scores.json', 'w') as f:
-            f.write(json.dumps({"errored": True}))
         return
 
-    # Result
-    res = bmcc.LstsqResult(dataset.data, hist, burn_in=400)
-    res.evaluate(
-        dataset.assignments,
-        oracle=dataset.oracle,
-        oracle_matrix=dataset.oracle_matrix)
+    with open(path_plot + '_scores.json', 'r') as f:
+        scores = json.loads(f.read())
 
-    save_fig(res.trace(), path_plot + '_trace')
-    save_fig(res.matrices(), path_plot + '_mat')
-    save_fig(
-        res.clustering(kwargs_scatter={"marker": "."}),
-        path_plot + '_cluster')
-
-    save_fig(
-        dataset.plot_oracle(), path_plot + '_oracle')
-
-    scores = {
-        "rand": res.rand_best,
-        "nmi": res.nmi_best,
-        "oracle_rand": res.oracle_rand,
-        "oracle_nmi": res.oracle_nmi,
-        "num_clusters": int(res.num_clusters[res.best_idx]),
-        "best_idx": int(res.best_idx),
-        "aggregation": res.aggregation_best,
-        "segregation": res.segregation_best,
-        "oracle_aggregation": res.oracle_aggregation,
-        "oracle_segregation": res.oracle_segregation
-    }
+    asn = dataset.assignments
+    scores.update({
+        "aggregation": bmcc.aggregation_score(asn, hist[scores["best_idx"]]),
+        "segregation": bmcc.segregation_score(asn, hist[scores["best_idx"]]),
+        "oracle_aggregation": bmcc.aggregation_score(asn, dataset.oracle),
+        "oracle_segregation": bmcc.aggregation_score(asn, dataset.oracle)
+    })
 
     with open(path_plot + '_scores.json', 'w') as f:
         f.write(json.dumps(scores))

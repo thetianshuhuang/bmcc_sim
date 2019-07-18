@@ -13,22 +13,12 @@ import os
 from tqdm import tqdm
 from multiprocessing import Pool
 
+from util import get_files_recursive
+
 
 BASE_DIR = './data/r=0.7,sym=False'
 RESULT_DIR = './results_dpm_no_eb/r=0.7,sym=False'
 MIXTURE_MODEL = 'DPM'
-
-
-def get_files_recursive(path):
-    """Helper function to recursively find .npz files"""
-
-    if os.path.isfile(path):
-        return [path] if path.endswith(".npz") else []
-    else:
-        res = []
-        for p in os.listdir(path):
-            res = res + get_files_recursive(os.path.join(path, p))
-        return res
 
 
 def run(path):
