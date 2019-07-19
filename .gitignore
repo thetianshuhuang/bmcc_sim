@@ -5,3 +5,4 @@ data*
 aggregate/*
 __pycache__/
 *.png
+selected_plots/*

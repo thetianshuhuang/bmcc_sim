@@ -10,8 +10,8 @@ from util import get_files_recursive, save_fig
 
 
 BASE_DIR = './data/r=0.7,sym=False'
-RESULT_DIR = './results_dpm_no_eb/r=0.7,sym=False'
-PLOT_DIR = './plots_dpm_no_eb/r=0.7,sym=False'
+RESULT_DIR = './results_mfm/r=0.7,sym=False'
+PLOT_DIR = './plots_mfm/r=0.7,sym=False'
 MIXTURE_MODEL = 'MFM'
 
 
@@ -44,7 +44,8 @@ def run(path):
         path_plot + '_cluster')
 
     save_fig(
-        dataset.plot_oracle(), path_plot + '_oracle')
+        dataset.plot_oracle(
+            kwargs_scatter={"marker": "."}), path_plot + '_oracle')
 
     scores = {
         "rand": res.rand_best,
@@ -84,7 +85,7 @@ if __name__ == '__main__':
     print('Starting...')
 
     # Run pool; tqdm is used to provide a progress bar
-    p = Pool()
+    p = Pool(maxtasksperchild=5)
     with tqdm(total=len(DATASETS)) as pbar:
         for i, _ in tqdm(enumerate(p.imap_unordered(run, DATASETS))):
             pbar.update()

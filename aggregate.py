@@ -92,17 +92,16 @@ def plot_hist(ax, data, attr, name):
     ls = np.linspace(left, right, 100)
     bins = np.linspace(left, right, 20)
 
-    ax.hist(d1, bins=bins, label='MFM - DPM (With EB)', alpha=0.5)
-    ax.plot(ls, gaussian_kde(d1).evaluate(ls), label='MFM - DPM (With EB)')
     ax.set_title(name + ' Difference')
     ax.set_xlabel('MFM {n} - DPM {n}'.format(n=name))
     ax.set_xlim(left, right)
+    ax.axvline(0, color='black')
+
+    ax.hist(d1, bins=bins, label='MFM - DPM (With EB)', alpha=0.5)
+    ax.plot(ls, gaussian_kde(d1).evaluate(ls), label='MFM - DPM (With EB)')
 
     ax.hist(d2, bins=bins, label='MFM - DPM (No EB)', alpha=0.5)
     ax.plot(ls, gaussian_kde(d2).evaluate(ls), label='MFM - DPM (No EB)')
-    ax.set_title(name + ' Difference')
-    ax.set_xlabel('MFM {n} - DPM {n}'.format(n=name))
-    ax.set_xlim(left, right)
 
     ax.legend()
 

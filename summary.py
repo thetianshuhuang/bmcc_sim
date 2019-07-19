@@ -65,9 +65,15 @@ def _stats(data, attr):
     return {
         "mfm": np.mean([
             i / j for i, j in zip(mfm[attr], mfm["oracle_" + attr])]),
+        "mfm_se": stats.sem([
+            i / j for i, j in zip(mfm[attr], mfm["oracle_" + attr])]),
         "dpm": np.mean([
             i / j for i, j in zip(dpm[attr], mfm["oracle_" + attr])]),
+        "dpm_se": stats.sem([
+            i / j for i, j in zip(dpm[attr], mfm["oracle_" + attr])]),
         "dpm_noeb": np.mean([
+            i / j for i, j in zip(dpm_noeb[attr], mfm["oracle_" + attr])]),
+        "dpm_noeb_se": stats.sem([
             i / j for i, j in zip(dpm_noeb[attr], mfm["oracle_" + attr])]),
         "diff": np.mean([
             i - j for i, j in zip(mfm[attr], dpm_noeb[attr])]),
@@ -104,11 +110,15 @@ if __name__ == '__main__':
         for axrow, n in zip(axs, [500, 1000, 2000]):
             for ax, stat in zip(axrow, PLOT_STATS):
                 for method in METHODS:
-                    data = [
-                        res["n={},d={},k={}".format(n, d, k)][stat][method]
+                    data_d = [
+                        res["n={},d={},k={}".format(n, d, k)][stat]
                         for k in [3, 4, 5, 6]
                     ]
-                    ax.plot([3, 4, 5, 6], data, label=METHODS[method])
+                    data = [d[method] for d in data_d]
+                    data_err = [d[method + '_se'] for d in data_d]
+                    ax.errorbar(
+                        [3, 4, 5, 6], data, yerr=data_err, ls='none',
+                        marker='o', label=METHODS[method], capsize=6)
                     ax.set_ylim(0.3, 1.2)
                 ax.legend()
                 ax.set_title('{} [n={}]'.format(stat, n))
@@ -118,9 +128,6 @@ if __name__ == '__main__':
 
     # Difference summary
     fig, axs = plt.subplots(3, 4)
-    fig.suptitle(
-        'Relative Performance of MFM, DPM (MFM - DPM)',
-        fontsize=20)
     for axrow, d in zip(axs, [2, 3, 5]):
         for ax, stat in zip(axrow, PLOT_STATS):
             for n in [500, 1000, 2000]:
@@ -132,8 +139,8 @@ if __name__ == '__main__':
                 data_err = [d["diff_se"] for d in data_d]
 
                 ax.errorbar(
-                    [3, 4, 5, 6], data, yerr=data_err,
-                    label="n={}".format(n), capsize=10)
+                    [3, 4, 5, 6], data, yerr=data_err, ls='none', marker='o',
+                    label="n={}".format(n), capsize=6)
             ax.legend()
             ax.axhline(0, color='red')
             ax.set_title('{} [d={}]'.format(stat, d))

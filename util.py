@@ -1,6 +1,7 @@
 
 import os
 from matplotlib import pyplot as plt
+import gc
 
 
 def get_files_recursive(path):
@@ -18,6 +19,7 @@ def get_files_recursive(path):
 def save_fig(fig, name):
     """Helper function to save figure"""
 
-    fig.set_size_inches(32, 24)
+    fig.set_size_inches(24, 18)
     fig.savefig(name + '.png')
-    plt.close('all')
+    plt.close(fig)
+    gc.collect()
