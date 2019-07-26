@@ -40,8 +40,9 @@ def run(path):
         mm = bmcc.DPM(alpha=1, use_eb=False)
 
     # Initialize sampler
-    model = bmcc.GibbsMixtureModel(
+    model = bmcc.BayesianMixture(
         data=dataset.data,
+        sampler=bmcc.gibbs,
         component_model=bmcc.NormalWishart(df=dataset.d),
         mixture_model=mm,
         assignments=np.zeros(dataset.n).astype(np.uint16),

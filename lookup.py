@@ -4,8 +4,8 @@ from scipy.stats import poisson
 
 
 INSPECT = (
-    "./data/r=0.7,sym=False/n=500,d=2,k=3/"
-    "ff02a9dc-a683-11e9-9834-4c34887dea79.npz"
+    "./data/r=0.7,sym=False/n=2000,d=3,k=3/"
+    "27aa8574-a684-11e9-9835-4c34887dea79.npz"
 )
 
 ds = bmcc.GaussianMixture(INSPECT, load=True)
@@ -13,8 +13,9 @@ ds = bmcc.GaussianMixture(INSPECT, load=True)
 ds.plot_actual(kwargs_scatter={"marker": "."}, plot=True)
 
 
-model = bmcc.GibbsMixtureModel(
+model = bmcc.BayesianMixture(
     data=ds.data,
+    sampler=bmcc.gibbs,
     component_model=bmcc.NormalWishart(df=2),
     mixture_model=bmcc.MFM(gamma=1, prior=lambda k: poisson.logpmf(k, 3)),
     thinning=20
