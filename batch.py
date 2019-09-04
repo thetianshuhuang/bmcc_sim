@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # Take all combinations of datasets, methods
     TESTS = [(ds, method) for ds in DATASETS for method in METHODS]
 
-    p = Pool(processes=1)
+    p = Pool()
     with tqdm(total=len(TESTS)) as pbar:
         for i, _ in tqdm(enumerate(p.imap_unordered(run, TESTS))):
             pbar.update()
