@@ -83,7 +83,7 @@ def run_evaluate(args):
         return
 
     # Load dataset
-    dataset = bmcc.GuassianMixture(path, load=True)
+    dataset = bmcc.GaussianMixture(path, load=True)
     hist = np.load(result_dir)['hist']
 
     # If procedure terminates before 2000it, use 2nd half of samples
