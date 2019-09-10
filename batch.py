@@ -79,7 +79,7 @@ def run_evaluate(args):
     eval_dir = path.replace(BASE_DIR, os.path.join(EVAL_DIR, method_name))
 
     # Ignore if already run
-    if os.path.exists(eval_dir):
+    if os.path.exists(eval_dir + "_scores.json"):
         return
 
     # Load dataset
@@ -88,7 +88,7 @@ def run_evaluate(args):
 
     # If procedure terminates before 2000it (400 once thinned), use 2nd half of
     # samples
-    bi_base = min(int(hist.shape[0] / 2), 400)
+    bi_base = min(int(hist.shape[0] / 2), 200)
 
     # Base evaluation
     # We don't care about the oracle matrix for now, so skip computation
