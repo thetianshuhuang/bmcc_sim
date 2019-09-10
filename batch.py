@@ -86,8 +86,9 @@ def run_evaluate(args):
     dataset = bmcc.GaussianMixture(path, load=True)
     hist = np.load(result_dir)['hist']
 
-    # If procedure terminates before 2000it, use 2nd half of samples
-    bi_base = min(int(hist.shape[0] / 2), 1000)
+    # If procedure terminates before 2000it (400 once thinned), use 2nd half of
+    # samples
+    bi_base = min(int(hist.shape[0] / 2), 400)
 
     # Base evaluation
     # We don't care about the oracle matrix for now, so skip computation
