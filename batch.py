@@ -122,8 +122,10 @@ if __name__ == '__main__':
 
     if sys.argv[2] == 'sample':
         rf = run_sample
+        bd = RESULT_DIR
     elif sys.argv[2] == 'eval':
         rf = run_evaluate
+        bd = EVAL_DIR
     else:
         print("Specify 'sample' or 'eval'.")
         exit()
@@ -135,9 +137,7 @@ if __name__ == '__main__':
     for path in DATASETS:
         for method_name in METHODS:
             parent = os.path.dirname(
-                path.replace(
-                    BASE_DIR,
-                    os.path.join(RESULT_DIR, method_name)))
+                path.replace(BASE_DIR, os.path.join(bd, method_name)))
 
             if not os.path.exists(parent):
                 os.makedirs(parent)
