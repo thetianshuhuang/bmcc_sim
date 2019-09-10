@@ -120,10 +120,10 @@ def run_evaluate(args):
 
 if __name__ == '__main__':
 
-    if sys.argv[2] == 'sample':
+    if sys.argv[1] == 'sample':
         rf = run_sample
         bd = RESULT_DIR
-    elif sys.argv[2] == 'eval':
+    elif sys.argv[1] == 'eval':
         rf = run_evaluate
         bd = EVAL_DIR
     else:
