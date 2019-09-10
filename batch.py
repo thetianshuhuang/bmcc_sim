@@ -86,6 +86,11 @@ def run_evaluate(args):
     dataset = bmcc.GaussianMixture(path, load=True)
     hist = np.load(result_dir)['hist']
 
+    if hist.shape[0] < 2:
+        with open(eval_dir + "_scores.json", "w") as f:
+            f.write(json.dumps({"errored": "no iterations saved"}))
+        return
+
     # If procedure terminates before 2000it (400 once thinned), use 2nd half of
     # samples
     bi_base = min(int(hist.shape[0] / 2), 200)
