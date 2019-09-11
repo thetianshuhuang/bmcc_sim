@@ -19,8 +19,6 @@ COLUMNS = [
 
 def load(file):
 
-    print(file)
-
     fn = file.replace(EVAL_DIR + '/', '')
 
     method, params, test_id = fn.split('/')
@@ -35,6 +33,10 @@ def load(file):
         "method": method,
         "id": test_id.replace('.npz_scores.json', '')})
 
+    for score in ['rand', 'nmi', 'aggregation', 'segregation']:
+        if score not in data:
+            data[score] = 1
+
     return data
 
 
@@ -43,7 +45,7 @@ if __name__ == '__main__':
     files = get_files_recursive(EVAL_DIR, ext='.json')
 
     with open('summary.csv', 'w') as f:
-        f.write(','.join(COLUMNS))
+        f.write(','.join(COLUMNS) + '\n')
         for fn in files:
             data = load(fn)
-            f.write(','.join(str(data.get(k)) for k in COLUMNS) + '\n')
+            f.write(','.join(str(data.get(k, 0)) for k in COLUMNS) + '\n')
