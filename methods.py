@@ -30,6 +30,7 @@ METHODS = {
     "dpm_eb": dpm(eb=True),
     "dpm_small_alpha": dpm(alpha=0.1),
     "dpm_big_alpha": dpm(alpha=10),
+    "dpm_eb_gibbs": dpm(eb=True, sampler=bmcc.gibbs),
 
     "mfm_gibbs": mfm(sampler=bmcc.gibbs),
     "mfm_sm": mfm(sampler=bmcc.split_merge),
