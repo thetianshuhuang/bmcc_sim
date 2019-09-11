@@ -46,8 +46,8 @@ METHODS = {
 
     "mfm_gibbs": mfm(sampler=bmcc.gibbs),
     "mfm_sm": mfm(sampler=bmcc.split_merge),
-    "mfm_hybrid_3": mfm(sampler=bmcc.hybrid_3),
-    "mfm_hybrid_10": mfm(sampler=bmcc.hybrid_10),
+    "mfm_hybrid_3": mfm(sampler=hybrid_3),
+    "mfm_hybrid_10": mfm(sampler=hybrid_10),
     "mfm_hybrid": mfm(),
     "mfm_prior_low": mfm(offset=-2),
     "mfm_prior_high": mfm(offset=2)
