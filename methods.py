@@ -8,6 +8,18 @@ def hybrid(*args, **kwargs):
     bmcc.split_merge(*args, **kwargs)
 
 
+def hybrid_3(*args, **kwargs):
+    for _ in range(3):
+        bmcc.gibbs(*args, **kwargs)
+    bmcc.split_merge(*args, **kwargs)
+
+
+def hybrid_10(*args, **kwargs):
+    for _ in range(10):
+        bmcc.gibbs(*args, **kwargs)
+    bmcc.split_merge(*args, **kwargs)
+
+
 def dpm(sampler=hybrid, alpha=1.0, eb=False):
     return {
         "sampler": sampler,
@@ -34,6 +46,8 @@ METHODS = {
 
     "mfm_gibbs": mfm(sampler=bmcc.gibbs),
     "mfm_sm": mfm(sampler=bmcc.split_merge),
+    "mfm_hybrid_3": mfm(sampler=hybrid_3),
+    "mfm_hybrid_10": mfm(sampler=hybrid_10),
     "mfm_hybrid": mfm(),
     "mfm_prior_low": mfm(offset=-2),
     "mfm_prior_high": mfm(offset=2)
