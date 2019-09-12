@@ -82,3 +82,7 @@ if __name__ == '__main__':
 
     elif sys.argv[1] == '2':
         make_phase_2()
+
+    else:
+        print("Specify the phase to run.")
+        exit()

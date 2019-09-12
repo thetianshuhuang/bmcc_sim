@@ -52,3 +52,9 @@ METHODS = {
     "mfm_prior_low": mfm(offset=-2),
     "mfm_prior_high": mfm(offset=2)
 }
+
+
+METHODS_SHORT = {
+    "dpm_hybrid": dpm(),
+    "mfm_hybrid": mfm(),
+}

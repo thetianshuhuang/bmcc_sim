@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import gc
 
 from util import get_files_recursive
-from methods import METHODS
+from methods import METHODS, METHODS_SHORT
 
 
 BASE_DIR = "./data"
@@ -136,21 +136,26 @@ if __name__ == '__main__':
         print("Specify 'sample' or 'eval'.")
         exit()
 
+    if 'short' in sys.argv:
+        methods = METHODS_SHORT
+    else:
+        methods = METHODS
+
     # Get list of files
     DATASETS = get_files_recursive(BASE_DIR)
 
-    # Mirror directory structure
-    for path in DATASETS:
-        for method_name in METHODS:
-            parent = os.path.dirname(
-                path.replace(BASE_DIR, os.path.join(bd, method_name)))
-
-            if not os.path.exists(parent):
-                os.makedirs(parent)
-
     # Take all combinations of datasets, methods
-    TESTS = [(ds, method) for ds in DATASETS for method in METHODS]
+    TESTS = [(ds, method) for ds in DATASETS for method in methods]
 
+    # Mirror directory structure
+    for path, method_name in TESTS:
+        parent = os.path.dirname(
+            path.replace(BASE_DIR, os.path.join(bd, method_name)))
+
+        if not os.path.exists(parent):
+            os.makedirs(parent)
+
+    # Run
     p = Pool()
     with tqdm(total=len(TESTS)) as pbar:
         for i, _ in tqdm(enumerate(p.imap_unordered(rf, TESTS))):
