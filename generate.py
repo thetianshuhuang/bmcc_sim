@@ -84,7 +84,7 @@ def make_phase_3():
         print(dst)
         for _ in tqdm(range(100)):
             means = [
-                100 * np.random.uniform(low=-0.5, high=0.5, size=3)
+                k * np.random.uniform(low=-0.5, high=0.5, size=3)
                 for _ in range(k)
             ]
 
