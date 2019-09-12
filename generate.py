@@ -49,6 +49,7 @@ def make_phase_1():
     for d, k in [(3, 3), (3, 5), (3, 8), (5, 3), (8, 3)]:
         dst = get_dirname(d, 80 * d * k, k, 0.8, makedir=True)
 
+        print(dst)
         for _ in tqdm(range(100)):
 
             ds = bmcc.GaussianMixture(
@@ -57,5 +58,27 @@ def make_phase_1():
             ds.save(os.path.join(dst, str(uuid.uuid4())))
 
 
+def make_phase_2():
+
+    for d in [3, 4, 5, 6, 8, 10, 12, 15, 18, 21]:
+        for n in [600, 800, 1000]:
+
+            dst = get_dirname(d, n, 3, 1.0, makedir=True)
+
+            print(dst)
+            for _ in tqdm(range(100)):
+
+                ds = bmcc.GaussianMixture(
+                    n=n, k=3, d=d, r=1.0, alpha=40, df=d,
+                    symmetric=False, shuffle=False)
+                ds.save(os.path.join(dst, str(uuid.uuid4())))
+
+
 if __name__ == '__main__':
-    make_phase_1()
+    import sys
+
+    if sys.argv[1] == '1':
+        make_phase_1()
+
+    elif sys.argv[1] == '2':
+        make_phase_2()
