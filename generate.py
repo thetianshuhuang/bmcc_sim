@@ -29,6 +29,7 @@ All with and without cleanup
 import os
 import bmcc
 import uuid
+import numpy as np
 from tqdm import tqdm
 
 
@@ -74,6 +75,25 @@ def make_phase_2():
                 ds.save(os.path.join(dst, str(uuid.uuid4())))
 
 
+def make_phase_3():
+
+    for k in [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 100]:
+
+        dst = get_dirname(3, 50 * k, 1.0, makedir=True)
+
+        print(dst)
+        for _ in tqdm(range(100)):
+            means = [
+                100 * np.random.uniform(min=-0.5, max=0.5, size=3)
+                for _ in range(k)
+            ]
+
+            ds = bmcc.GaussianMixture(
+                n=50 * k, k=k, d=3, r=1.0, df=3,
+                symmetric=False, shuffle=False, means=means)
+            ds.save(os.path.join(dst, str(uuid.uuid4())))
+
+
 if __name__ == '__main__':
     import sys
 
@@ -82,6 +102,9 @@ if __name__ == '__main__':
 
     elif sys.argv[1] == '2':
         make_phase_2()
+
+    elif sys.argv[1] == '3':
+        make_phase_3()
 
     else:
         print("Specify the phase to run.")

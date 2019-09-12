@@ -3,7 +3,7 @@ import json
 
 from util import get_files_recursive
 
-EVAL_DIR = "./eval"
+EVAL_DIRS = ["./eval"]
 
 COLUMNS = [
     'rand', 'nmi',
@@ -13,13 +13,13 @@ COLUMNS = [
     'oracle_aggregation', 'oracle_segregation',
     'iterations',
     'method', 'd', 'p', 'k', 'r',
-    'id'
+    'id', 'file'
 ]
 
 
-def load(file):
+def load(file, base):
 
-    fn = file.replace(EVAL_DIR + '/', '')
+    fn = file.replace(base + '/', '')
 
     method, params, test_id = fn.split('/')
 
@@ -31,7 +31,9 @@ def load(file):
     data.update({
         "d": d, "p": p, "k": k, "r": r,
         "method": method,
-        "id": test_id.replace('.npz_scores.json', '')})
+        "id": test_id.replace('.npz_scores.json', ''),
+        "file": '"' + file + '"'
+    })
 
     for score in ['rand', 'nmi', 'aggregation', 'segregation']:
         if 'oracle_' + score not in data:
@@ -40,12 +42,18 @@ def load(file):
     return data
 
 
+def process_dir(base, f):
+
+    files = get_files_recursive(base, ext='.json')
+
+    f.write(','.join(COLUMNS) + '\n')
+    for fn in files:
+        data = load(fn, base)
+        f.write(','.join(str(data.get(k, 0)) for k in COLUMNS) + '\n')
+
+
 if __name__ == '__main__':
 
-    files = get_files_recursive(EVAL_DIR, ext='.json')
-
     with open('summary.csv', 'w') as f:
-        f.write(','.join(COLUMNS) + '\n')
-        for fn in files:
-            data = load(fn)
-            f.write(','.join(str(data.get(k, 0)) for k in COLUMNS) + '\n')
+        for base in EVAL_DIRS:
+            process_dir(base, f)
