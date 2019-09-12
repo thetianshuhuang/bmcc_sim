@@ -9,3 +9,5 @@ selected_plots/*
 *.zip
 *.csv
 eval*
+zip*
+*.pdf

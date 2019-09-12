@@ -34,8 +34,8 @@ def load(file):
         "id": test_id.replace('.npz_scores.json', '')})
 
     for score in ['rand', 'nmi', 'aggregation', 'segregation']:
-        if score not in data:
-            data[score] = 1
+        if 'oracle_' + score not in data:
+            data['oracle_' + score] = 1
 
     return data
 
