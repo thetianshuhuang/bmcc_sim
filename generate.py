@@ -79,7 +79,7 @@ def make_phase_3():
 
     for k in [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 100]:
 
-        dst = get_dirname(3, 50 * k, 1.0, makedir=True)
+        dst = get_dirname(3, 50 * k, k, 1.0, makedir=True)
 
         print(dst)
         for _ in tqdm(range(100)):
