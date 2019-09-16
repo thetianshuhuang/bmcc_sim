@@ -137,8 +137,10 @@ if __name__ == '__main__':
         exit()
 
     if 'short' in sys.argv:
+        print("Using short methods.")
         methods = METHODS_SHORT
     else:
+        print("Using all methods.")
         methods = METHODS
 
     # Get list of files
