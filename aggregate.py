@@ -3,7 +3,7 @@ import json
 
 from util import get_files_recursive
 
-EVAL_DIRS = ["./eval"]
+EVAL_DIRS = ["./phase_1/eval"]
 
 COLUMNS = [
     'rand', 'nmi',

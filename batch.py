@@ -19,6 +19,9 @@ BASE_DIR = "./data"
 RESULT_DIR = "./results"
 EVAL_DIR = "./eval"
 
+# 100 for phase 1; 1000 for phase 2
+CLUSTERS_LIMIT = 1000
+
 
 def save_fig(fig, name):
     """Helper function to save figure"""
@@ -61,7 +64,7 @@ def run_sample(args):
     try:
         for i in range(5000):
             model.iter()
-            if np.max(model.assignments) > 100:
+            if np.max(model.assignments) > CLUSTERS_LIMIT:
                 break
     except Exception as e:
         print("Exception in {} / {}:".format(method_name, path))
