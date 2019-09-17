@@ -20,7 +20,9 @@ COLUMNS = {
     'p': np.int16,
     'k': np.int16,
     'r': np.float64,
-    'id': str
+    'id': str,
+    'file': str,
+    'phase': str,
 }
 
 
@@ -33,16 +35,16 @@ SCORES = {
 
 
 METHODS_P1 = {
-    'mfm_prior_high': "MFM: poisson(k + 2)",
+    'mfm_prior_high': "MFM: poisson$(k + 2)$",
     'mfm_hybrid': "MFM: (5,1) hybrid",
-    'mfm_prior_low': "MFM: poisson(k - 2)",
+    'mfm_prior_low': "MFM: poisson$(k - 2)$",
     'mfm_gibbs': "MFM: gibbs",
     'mfm_sm': "MFM: split merge",
     'mfm_hybrid_3': "MFM: (3,1) hybrid",
     'mfm_hybrid_10': "MFM: (10,1) hybrid",
-    'dpm_small_alpha': "DPM: alpha=0.1",
+    'dpm_small_alpha': r"DPM: $\alpha=0.1$",
     'dpm_hybrid': "DPM: (5,1) hybrid",
-    'dpm_big_alpha': "DPM: alpha=10",
+    'dpm_big_alpha': r"DPM: $\alpha=10$",
     'dpm_sm': "DPM: split merge",
     'dpm_gibbs': "DPM: gibbs",
     'dpm_eb': "DPM: EB",

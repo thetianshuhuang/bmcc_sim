@@ -3,7 +3,7 @@ import json
 
 from util import get_files_recursive
 
-EVAL_DIRS = ["./phase_1/eval"]
+EVAL_DIRS = ["./phase_1/eval", "./phase_2/eval"]
 
 COLUMNS = [
     'rand', 'nmi',
@@ -13,7 +13,7 @@ COLUMNS = [
     'oracle_aggregation', 'oracle_segregation',
     'iterations',
     'method', 'd', 'p', 'k', 'r',
-    'id', 'file'
+    'id', 'file', 'phase'
 ]
 
 
@@ -32,7 +32,8 @@ def load(file, base):
         "d": d, "p": p, "k": k, "r": r,
         "method": method,
         "id": test_id.replace('.npz_scores.json', ''),
-        "file": '"' + file + '"'
+        "file": '"' + file + '"',
+        "phase": base.split('/')[1]
     })
 
     for score in ['rand', 'nmi', 'aggregation', 'segregation']:
@@ -46,7 +47,6 @@ def process_dir(base, f):
 
     files = get_files_recursive(base, ext='.json')
 
-    f.write(','.join(COLUMNS) + '\n')
     for fn in files:
         data = load(fn, base)
         f.write(','.join(str(data.get(k, 0)) for k in COLUMNS) + '\n')
@@ -55,5 +55,6 @@ def process_dir(base, f):
 if __name__ == '__main__':
 
     with open('summary.csv', 'w') as f:
+        f.write(','.join(COLUMNS) + '\n')
         for base in EVAL_DIRS:
             process_dir(base, f)
