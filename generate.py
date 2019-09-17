@@ -31,6 +31,7 @@ import bmcc
 import uuid
 import numpy as np
 from tqdm import tqdm
+import ghalton
 
 
 def get_dirname(d, p, k, r, base_dir="./data", makedir=False):
@@ -83,10 +84,14 @@ def make_phase_3():
 
         print(dst)
         for _ in tqdm(range(100)):
+            # means = [
+            #     (40 * k)**(1/3) * np.random.uniform(
+            #         low=-0.5, high=0.5, size=3)
+            #     for _ in range(k)
+            # ]
             means = [
-                (40 * k)**(1/3) * np.random.uniform(
-                    low=-0.5, high=0.5, size=3)
-                for _ in range(k)
+                (40 * k)**(1 / 3) * np.array(x)
+                for x in ghalton.Halton(3).get(k)
             ]
 
             ds = bmcc.GaussianMixture(
