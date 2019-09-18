@@ -28,6 +28,7 @@ def save_fig(fig, name):
 
     fig.set_size_inches(16, 12)
     fig.savefig(name + '.png')
+    fig.clf()
     plt.close(fig)
     gc.collect()
 
