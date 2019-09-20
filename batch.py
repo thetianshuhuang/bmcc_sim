@@ -22,6 +22,9 @@ EVAL_DIR = "./eval"
 # 100 for phase 1; 1000 for phase 2
 CLUSTERS_LIMIT = 1000
 
+# Scale matrix
+SCALE_MATRIX = True
+
 
 def save_fig(fig, name):
     """Helper function to save figure"""
@@ -52,12 +55,17 @@ def run_sample(args):
     # Fetch method
     method = METHODS[method_name]
 
+    cm = bmcc.NormalWishart(
+        df=dataset.d,
+        scale=np.identity(dataset.d) if SCALE_MATRIX else None)
+    mm = method["mixture"](dataset.k)
+
     # Create model
     model = bmcc.BayesianMixture(
         data=dataset.data,
         sampler=method["sampler"],
-        component_model=bmcc.NormalWishart(df=dataset.d),
-        mixture_model=method["mixture"](dataset.k),
+        component_model=cm,
+        mixture_model=mm,
         assignments=np.zeros(dataset.n).astype(np.uint16),
         thinning=5)
 

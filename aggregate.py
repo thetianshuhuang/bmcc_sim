@@ -1,9 +1,16 @@
-
+import os
 import json
+from tqdm import tqdm
 
 from util import get_files_recursive
 
-EVAL_DIRS = ["./phase_1/eval", "./phase_2/eval"]
+
+BASE_DIR = '/media/tianshu/Mass Storage/Data and Data Accessories/bmcc'
+EVAL_DIRS = [
+    os.path.join(BASE_DIR, d) for d in
+    ["phase_1/eval", "phase_2/eval", "phase_3/eval"]
+]
+
 
 COLUMNS = [
     'rand', 'nmi',
@@ -47,7 +54,8 @@ def process_dir(base, f):
 
     files = get_files_recursive(base, ext='.json')
 
-    for fn in files:
+    print(base)
+    for fn in tqdm(files):
         data = load(fn, base)
         f.write(','.join(str(data.get(k, 0)) for k in COLUMNS) + '\n')
 
