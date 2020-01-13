@@ -91,8 +91,6 @@ def run_evaluate(args):
 
     # Load dataset
     dataset = bmcc.StochasticBlockModel(path, load=True)
-    import pdb
-    pdb.set_trace()
     hist = np.load(result_dir)['hist']
 
     if hist.shape[0] < 2:
