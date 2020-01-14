@@ -10,14 +10,14 @@ from tqdm import tqdm
 def get_dirname(n, k, p, r, base_dir="./data"):
     target = os.path.join(
         base_dir,
-        "n={},p={},k={},r={}".format(n, k, p, r))
+        "n={},p={},k={},r={}".format(n, p, k, r))
     if not os.path.isdir(target):
         os.makedirs(target)
     return target
 
 
 def make(n, k, p, r):
-    print("Making: n={}, k={}, p={}, r={}".format(n, k, p, r))
+    print("Making: n={}, p={}, k={}, r={}".format(n, p, k, r))
 
     for _ in tqdm(range(100)):
         dst = get_dirname(n, k, p, r)

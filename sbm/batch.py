@@ -66,7 +66,7 @@ def run_sample(args):
 
     # Run iterations (break on exceeding limit)
     try:
-        for i in range(1000):
+        for i in range(10000):
             model.iter()
             if np.max(model.assignments) > CLUSTERS_LIMIT:
                 break
