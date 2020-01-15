@@ -100,7 +100,7 @@ def run_evaluate(args):
 
     # If procedure terminates before 2000it (400 once thinned), use 2nd half of
     # samples
-    bi_base = min(int(hist.shape[0] / 2), 200)
+    bi_base = min(int(hist.shape[0] / 2), 1000)
 
     # Base evaluation
     # We don't care about the oracle matrix for now, so skip computation
